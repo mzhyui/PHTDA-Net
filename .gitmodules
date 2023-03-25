@@ -1,3 +1,0 @@
-[submodule "LG-FedAvg"]
-	path = LG-FedAvg
-	url = git@github.com:pliang279/LG-FedAvg.git
