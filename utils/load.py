@@ -66,7 +66,7 @@ def getGradients(modelpth : str = "", modelAndDataloader : list = [], ):
         return {}
     
     model1, test_loader = modelAndDataloader
-                        
+    model1.eval()
     model1.load_state_dict(torch.load(modelpth))
     
     criterion = nn.CrossEntropyLoss()

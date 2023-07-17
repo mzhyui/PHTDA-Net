@@ -2,8 +2,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn.init as init
+from torch.utils.tensorboard import SummaryWriter
 
 import random
+import os
+import datetime
 
 class MnistNet(nn.Module):
     def __init__(self):
@@ -207,6 +210,8 @@ class LeNet_tail(nn.Module):
         return out
 
 #%%
+layerNo = 0
+
 def _weights_init(m):
     classname = m.__class__.__name__
     #print(classname)
@@ -246,17 +251,31 @@ class BasicBlock(nn.Module):
                 )
 
     def forward(self, x):
+        global layerNo
+
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.bn2(self.conv2(out))
-        out += self.shortcut(x)
+        # out += self.shortcut(x)
+        mid = self.shortcut(x)
+        out += mid
+        now = datetime.datetime.now()
+        formatted_date_time = now.strftime("%Y-%m-%d %H:%M")
+        layerNo += 1
+        writer = SummaryWriter(os.path.join('./log', "shortcut", formatted_date_time))
+        writer.add_histogram("shortcut"+str(layerNo % 9), mid)
+        writer.close()
         out = F.relu(out)
         return out
 
 
 class ResNet(nn.Module):
+    global layerNo
+    layerNo=0
+
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNet, self).__init__()
         self.in_planes = 16
+
 
         self.conv1 = nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(16)
