@@ -1,0 +1,74 @@
+Debuging Persistence Computation -- Log File
+Fri Aug 18 09:46:17 2023
+-------start vList construction and sorting
+Fri Aug 18 09:46:17 2023
+-------start sorting vList by f. value
+Fri Aug 18 09:46:17 2023
+-------end sorting vList by f. value
+Fri Aug 18 09:46:17 2023
+-------end vList constructed and sorting
+Number of vertices = 256
+Fri Aug 18 09:46:17 2023
+-------start propagating maximum values from vertices
+Fri Aug 18 09:46:17 2023
+-------end propagating maximum values from vertices
+Fri Aug 18 09:46:17 2023
+-------start cell numbering 
+Fri Aug 18 09:46:17 2023
+-------end cell numbering 
+Fri Aug 18 09:46:17 2023
+-------start explicit cell generation
+Fri Aug 18 09:46:17 2023
+-------end explicit cell generation
+Fri Aug 18 09:46:17 2023
+-------start explicit cell generation
+Fri Aug 18 09:46:17 2023
+-------end explicit cell generation
+Fri Aug 18 09:46:17 2023
+-------start explicit cell generation
+Fri Aug 18 09:46:17 2023
+-------end explicit cell generation
+Fri Aug 18 09:46:17 2023
+-------start propagating maximum values from vertices
+Fri Aug 18 09:46:17 2023
+-------end propagating maximum values from vertices
+Fri Aug 18 09:46:17 2023
+-------start cell numbering 
+Fri Aug 18 09:46:17 2023
+-------end cell numbering 
+Fri Aug 18 09:46:17 2023
+-------start boundary list resizing
+Fri Aug 18 09:46:17 2023
+-------end boundary list resizing
+Fri Aug 18 09:46:17 2023
+-------start boundary calculation
+Fri Aug 18 09:46:17 2023
+----------filtration construction finished
+Fri Aug 18 09:46:17 2023
+-------Reducing cells, total number = 225
+Fri Aug 18 09:46:17 2023
+-------start propagating maximum values from vertices
+Fri Aug 18 09:46:17 2023
+-------end propagating maximum values from vertices
+Fri Aug 18 09:46:17 2023
+-------start cell numbering 
+Fri Aug 18 09:46:17 2023
+-------end cell numbering 
+Fri Aug 18 09:46:17 2023
+-------start boundary list resizing
+Fri Aug 18 09:46:17 2023
+-------end boundary list resizing
+Fri Aug 18 09:46:17 2023
+-------start boundary calculation
+Fri Aug 18 09:46:17 2023
+----------filtration construction finished
+Fri Aug 18 09:46:17 2023
+-------Reducing cells, total number = 480
+Fri Aug 18 09:46:17 2023
+-------Reduction done
+Fri Aug 18 09:46:17 2023
+-------Recording persistence pairs
+Fri Aug 18 09:46:17 2023
+-------Finished
+All calculations computed in 0 seconds. 
+
