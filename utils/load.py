@@ -24,7 +24,7 @@ trans_cifar10_val = transforms.Compose([transforms.ToTensor(),
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-def merge_sublists_with_shared_items(data):
+def mergeSublistsWithSharedItems(data):
     merged = True
     while merged:
         merged = False
@@ -92,19 +92,19 @@ def initDataset(model : str = None):
     return model1, test_loader, dataset_test
 
 
-def get_total_length(lst):
+def getTotalLength(lst):
     total_length = 0
 
     for item in lst:
         if isinstance(item, list):
-            total_length += get_total_length(item)
+            total_length += getTotalLength(item)
         else:
             total_length += 1
 
     return total_length
 
 
-def get_samples(dataset_test = None):
+def getSamples(dataset_test = None):
     num_classes = len(dataset_test.classes)
     sample_list = [[] for _ in range(num_classes)]
     # print(len(sample_list))
@@ -143,8 +143,8 @@ def getGradients(modelpth : str = "", model: torch.nn.Module = None, dataloader 
         raise Exception("None input")
     
     model1, test_loader = copy.deepcopy(model), dataloader
-    model1.eval()
     model1.load_state_dict(torch.load(modelpth))
+    model1.eval()
     
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model1.parameters(), lr=0.01, momentum=0.5)
@@ -179,7 +179,7 @@ def getTopofeature(modelpth : str = "", model: torch.nn.Module = None, dataloade
     
     model, test_loader = copy.deepcopy(model), dataloader
     model.load_state_dict(torch.load(modelpth))
-    sample_list = get_samples(dataset_test=dataset)
+    sample_list = getSamples(dataset_test=dataset)
 
     scores_pred = torch.zeros(len(sample_list), len(sample_list))
 
@@ -224,3 +224,16 @@ def getTopofeature(modelpth : str = "", model: torch.nn.Module = None, dataloade
 
         # print(origin[0] - a, origin[1] - content)
     return np.array(topo_vector)
+
+def extractWeights(model):
+    weights = []
+    for name, param in model.named_parameters():
+        if 'weight' in name:
+            if hasattr(param, 'is_quantized') and param.is_quantized:
+                # 提取整数表示
+                weights.append(param.flatten().int_repr().tolist())
+            else:
+                # 对于非量化张量，可以直接添加原始张量
+                # weights.append(param.flatten().tolist())
+                pass
+    return weights

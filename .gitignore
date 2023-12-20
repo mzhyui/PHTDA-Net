@@ -1,6 +1,7 @@
 # My
 data/
 *.html
+*.txt
 log/
 
 # Byte-compiled / optimized / DLL files
