@@ -237,3 +237,20 @@ def extractWeights(model):
                 # weights.append(param.flatten().tolist())
                 pass
     return weights
+
+
+def minimizeProduct(k):
+    # Initialize minimum product as k (maximum possible product of 1 and k itself)
+    min_product = k
+    best_factors = (1, k)
+    
+    # Iterate over possible factors
+    for i in range(1, int(math.sqrt(k)) + 1):
+        if k % i == 0:  # If i is a factor
+            j = k // i  # Other factor
+            # As we are looking for the closest factor pair, they will be the optimal solution
+            if abs(i-j) < abs(best_factors[0]-best_factors[1]):
+                min_product = i * j
+                best_factors = (i, j)
+                
+    return best_factors, min_product
