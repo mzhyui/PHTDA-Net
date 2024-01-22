@@ -10,11 +10,12 @@ import torch.utils.data
 import torch.utils.data.distributed
 from torch.utils.data.sampler import SubsetRandomSampler
 from torchvision import datasets, transforms
+from sklearn.neighbors import NearestNeighbors
 import random
 import math
 import copy
-from .topoloss import getTopoLoss
 import numpy as np
+from .topoloss import getTopoLoss
 
 trans_mnist = transforms.Compose([transforms.ToTensor(),
                                   transforms.Normalize((0.1307,), (0.3081,))])
@@ -24,21 +25,40 @@ trans_cifar10_val = transforms.Compose([transforms.ToTensor(),
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-def mergeSublistsWithSharedItems(data):
-    merged = True
-    while merged:
-        merged = False
-        for i in range(len(data)):
-            for j in range(i + 1, len(data)):
-                if set(data[i]).intersection(data[j]):
-                    data[i] = list(set(data[i]).union(data[j]))
-                    del data[j]
-                    merged = True
-                    break
-            if merged:
+def inflectionpoint(data):
+    # 假设 X 是您的数据集，它是一个形状为 (n_samples, n_features) 的 NumPy 数组
+    # X = ... # 您的数据集
+
+    # 选择k值，通常k = 4
+    X = data.copy()
+    k = 4
+
+    # 使用sklearn的NearestNeighbors计算每个点的k-最近邻
+    nbrs = NearestNeighbors(n_neighbors=k).fit(X)
+    distances, indices = nbrs.kneighbors(X)
+
+    # 对每个点的距离进行排序并绘制k-距离图
+    sorted_distances = np.sort(distances, axis=0)[:, k-1]
+    return sorted_distances
+
+def gen_corr_matrix(data):
+    """
+    data: n-d vectors
+    """
+    corr = np.zeros((len(data), len(data), 1))
+    for id1, v1 in enumerate(data):
+        if id1 >= len(data):
+            break
+        for id2, v2 in enumerate(data):
+            if id2 >= len(data):
                 break
-    return data
-    
+            if id2 <= id1:
+                continue
+            
+
+            corr[id1][id2] = 1 - np.linalg.norm(v1-v2)
+    return 1 - corr.reshape(-1, len(data)) - corr.reshape(-1, len(data)).T
+
 def overlay(im, a, x):
     multi = 10
     N = im.shape[0]
