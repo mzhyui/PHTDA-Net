@@ -1,21 +1,22 @@
-from .model_analysis_nets import *
+import copy
+import math
+import random
+
+import numpy as np
 import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.distributed as dist
-import torch.optim
+import torch.nn as nn
+import torch.nn.parallel
+import torch.optim as optim
 import torch.utils.data
 import torch.utils.data.distributed
+from sklearn.neighbors import NearestNeighbors
 from torch.utils.data.sampler import SubsetRandomSampler
 from torchvision import datasets, transforms
-from sklearn.neighbors import NearestNeighbors
-import random
-import math
-import copy
-import numpy as np
-from .topoloss import getTopoLoss
+
+from utils.model_analysis_nets import *
+from utils.topoloss import getTopoLoss
 
 trans_mnist = transforms.Compose([transforms.ToTensor(),
                                   transforms.Normalize((0.1307,), (0.3081,))])
